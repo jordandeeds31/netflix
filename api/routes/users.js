@@ -53,18 +53,46 @@ router.get("/find/:id", async (req, res) => {
 router.get("/", verify, async (req, res) => {
     const query = req.query.new;
     if (req.user.isAdmin) {
-      try {
-        const users = query
-          ? await User.find().sort({ _id: -1 }).limit(5)
-          : await User.find();
-        res.status(200).json(users);
-      } catch (err) {
-        res.status(500).json(err);
-      }
+        try {
+            const users = query
+                ? await User.find().sort({ _id: -1 }).limit(5)
+                : await User.find();
+            res.status(200).json(users);
+        } catch (err) {
+            res.status(500).json(err);
+        }
     } else {
-      res.status(403).json("You are not allowed to see all users!");
+        res.status(403).json("You are not allowed to see all users!");
     }
-  });
+});
 
 // Get Stats
+router.get("/stats", async (req, res) => {
+    // const today = new Date();  // this will return something like this: Fri Feb 03 2023 09:33:51 GMT-0500 (Eastern Standard Time)
+    // // we want to fetch user stats from last year
+    // const lastYear = today.setFullYear(today.setFullYear() - 1) // setFullYear is going to give the current year, so if we subtract 1, it will give last year 
+    // const monthsArray = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "Decemeber"];
+    // we want to find total users per month
+    try {
+        // to find total users per month we should aggregate them   
+        const data = await User.aggregate([
+            {
+                $project: {
+                    month: { $month: "$createdAt" }   // we are getting information by month, if you wanted to get it by year then we would just use $year 
+                }
+            },
+            {
+                $group: {
+                    _id: "$month",  // this has to be unique, so we can group all the information by the month
+                    total: { $sum: 1 },     // this gets the total numbers of users per month, so if there are 9 users in march we just times 9 by 1 
+                }
+            }
+        ])
+        res.status(200).json(data);
+    } catch (err) {
+        res.status(500).json(err);
+    }
+
+
+})
 
