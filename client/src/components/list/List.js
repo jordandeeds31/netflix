@@ -34,8 +34,6 @@ const List = () => {
                     <ListItem />
                     <ListItem />
                     <ListItem />
-                    <ListItem />
-                    <ListItem />
                 </div>
                 <ArrowForwardIosOutlinedIcon className="w-[50px] right-0 cursor-pointer opacity-[.2] absolute bg-black text-white sliderArrow right" onClick={() => handleClick("right")} />
             </div>

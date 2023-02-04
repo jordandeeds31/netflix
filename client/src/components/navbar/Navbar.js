@@ -12,6 +12,7 @@ const Navbar = () => {
     return () => (window.onscroll = null);
   }
 
+  
   return (
     <div className={isScrolled ? "text-white pl-[50px] pr-[50px] fixed w-[100%] z-50 bg-[#0b0b0b]" : "text-white pl-[50px] pr-[50px] fixed w-[100%] z-50 navbar"}>
       <div className="flex items-center justify-between h-[70px]">
