@@ -3,7 +3,7 @@ import ArrowBackIosNewOutlinedIcon from '@mui/icons-material/ArrowBackIosNewOutl
 import ArrowForwardIosOutlinedIcon from '@mui/icons-material/ArrowForwardIosOutlined';
 import ListItem from '../listItem/ListItem';
 
-const List = () => {
+const List = ({ list  }) => {
     const [slideNumber, setSlideNumber] = useState(0);
     const [isMoved, setIsMoved] = useState(false);
     const listRef = useRef();
@@ -22,18 +22,13 @@ const List = () => {
 
     return (
         <div className="w-[100%] mt-[10px]">
-            <span className="text-white text-[20px] ml-[50px]">Continue to Watch</span>
+            <span className="text-white text-[20px] ml-[50px]">{list.title}</span>
             <div className="relative mt-[10px]">
-                <ArrowBackIosNewOutlinedIcon className="z-[10] w-[50px] cursor-pointer opacity-[.2] left-0 absolute bg-black text-white sliderArrow left" onClick={() => handleClick("left")} style={{display: !isMoved && "none"}}/>
+                <ArrowBackIosNewOutlinedIcon className="z-[10] w-[50px] cursor-pointer opacity-[.2] left-0 absolute bg-black text-white sliderArrow left" onClick={() => handleClick("left")} style={{ display: !isMoved && "none" }} />
                 <div className="flex ml-[50px] w-max gap-[5px] listContainer mb-[20px]" ref={listRef}>
-                    <ListItem />
-                    <ListItem />
-                    <ListItem />
-                    <ListItem />
-                    <ListItem />
-                    <ListItem />
-                    <ListItem />
-                    <ListItem />
+                    {list.content.map((item, i) => (
+                        <ListItem index={i} item={item}/>
+                    ))}
                 </div>
                 <ArrowForwardIosOutlinedIcon className="w-[50px] right-0 cursor-pointer opacity-[.2] absolute bg-black text-white sliderArrow right" onClick={() => handleClick("right")} />
             </div>
